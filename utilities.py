@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline
-
+import streamlit as st
 
 # Productivity Index (darcy law)
 def j_darcy(ko, h, bo, uo, re, rw, s, flow_regime = 'seudocontinuo'):
@@ -200,11 +200,11 @@ def IPR_curve(q_test, pwf_test, pr, pwf:list, pb):
     plt.axhline(y=pb, color='r', linestyle='--')
     plt.axvline(x=Qb(q_test, pwf_test, pr, pb), color='r', linestyle='--')
     ax.grid()
-    plt.show()
+    st.pyplot(fig)
 
 
 # IPR Curve
-def IPR_curve_methods(q_test, pwf_test, pr, pwf:list, pb, method, ef=1, ef2=None):
+def IPR_curve_methods(q_test, pwf_test, pr, pwf, pb, method, ef=1, ef2=None):
     # Creating Dataframe
     fig, ax = plt.subplots(figsize=(20, 10))
     df = pd.DataFrame()
@@ -239,10 +239,10 @@ def IPR_curve_methods(q_test, pwf_test, pr, pwf:list, pb, method, ef=1, ef2=None
     plt.axhline(y=pb, color='r', linestyle='--')
     plt.axvline(x=Qb(q_test, pwf_test, pr, pb), color='r', linestyle='--')
     ax.grid()
-    plt.show()
+    st.pyplot(fig)
 
 # IPR Curve
-def IPR_Curve(q_test, pwf_test, pr, pwf:list, pb, ef=1, ef2=None, ax=None):
+def IPR_Curve(q_test, pwf_test, pr, pwf, pb, ef=1, ef2=None, ax=None):
     # Creating Dataframe
     df = pd.DataFrame()
     df['Pwf(psia)'] = pwf
@@ -269,4 +269,4 @@ def IPR_Curve(q_test, pwf_test, pr, pwf:list, pb, ef=1, ef2=None, ax=None):
     plt.axhline(y=pb, color='r', linestyle='--')
     plt.axvline(x=Qb(q_test, pwf_test, pr, pb), color='r', linestyle='--')
     ax.grid()
-    plt.show()
+    st.pyplot(fig)
