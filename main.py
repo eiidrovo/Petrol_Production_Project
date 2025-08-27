@@ -4,7 +4,7 @@ from PIL import Image
 import pandas as pd
 import plotly.express as px
 import numpy as np
-from utilities import IPR_Curve,IPR_curve_methods
+from utilities import IPR_Curve,IPR_curve_methods,j,Qb,qo, aof
 import matplotlib.pyplot as plt
 
 def production_plots():
@@ -71,6 +71,11 @@ def ipr_interface():
         IPR_Curve(q_test, pwf_test, pr, pwf, pb, ef1, ef2)
     else:
         IPR_curve_methods(q_test, pwf_test, pr, pwf, pb, method, ef1, ef2)
+    pwf_case=st.number_input('Psia pwf case')
+    J_case=j(q_test, pwf_test, pr, pb, ef1)
+    AOF_case=aof(q_test, pwf_test, pr, pb, ef1)
+    qb_case=Qb(q_test, pwf_test, pr, pb, ef1)
+    qo_Case=qo(q_test, pwf_test, pr, pwf_case, pb, ef1)
 
 icon= Image.open('Resources/Logo.png')
 st.set_page_config(page_title="Proyecto", page_icon=icon)
