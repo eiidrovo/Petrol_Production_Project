@@ -7,30 +7,30 @@ import numpy as np
 from utilities import IPR_Curve,IPR_curve_methods,j,Qb,qo, aof
 import matplotlib.pyplot as plt
 
+
 def production_plots():
     file = st.file_uploader("Upload data to plot", type=["xlsx"])
     if file is not None:
-        Well_Data=pd.read_excel(file,sheet_name='Monthly Production Data',skiprows=[1])
+        Well_Data = pd.read_excel(file, sheet_name='Monthly Production Data', skiprows=[1])
         st.success("File Loaded!")
     else:
         st.success('Waiting For File')
         st.stop()
-    
 
-    Well_Data['date']=pd.to_datetime(Well_Data[['Year','Month']].assign(day=1))
+    Well_Data['date'] = pd.to_datetime(Well_Data[['Year', 'Month']].assign(day=1))
 
-    Selected_Well=st.selectbox(
+    Selected_Well = st.selectbox(
         'Choose Well',
         options=Well_Data['Wellbore name'].unique()
     )
     fig = px.line(
-        Well_Data[Well_Data['Wellbore name'] ==Selected_Well],
+        Well_Data[Well_Data['Wellbore name'] == Selected_Well],
         x='date',
-        y=['Oil','Water','Water'],
+        y=['Oil', 'Water', 'Gas'],
         labels={'value': 'Production', 'date': 'Time'},
         title='Productivity'
     )
-    fig.update_layout(legend_title_text='Production [Sm3]')        
+    fig.update_layout(legend_title_text='Production [Sm3]')
     st.plotly_chart(fig, use_container_width=True)
 
 def ipr_interface():
@@ -76,6 +76,13 @@ def ipr_interface():
     AOF_case=aof(q_test, pwf_test, pr, pb, ef1)
     qb_case=Qb(q_test, pwf_test, pr, pb, ef1)
     qo_Case=qo(q_test, pwf_test, pr, pwf_case, pb, ef1)
+    show_text = f'''
+    J:{J_case:.3f} \n
+    aof:{AOF_case:.3f}\n
+    qb:{qb_case:.3f}\n
+    qo:{qo_Case:.3f}\n
+    '''
+    st.success(show_text)
 
 icon= Image.open('Resources/Logo.png')
 st.set_page_config(page_title="Proyecto", page_icon=icon)
